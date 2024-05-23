@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo4j CRUD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Perpetrator-Victim Relations</h1>
+
+    <h2>Create Record</h2>
+    <form id="create-form">
+        <input type="text" id="create-perpetrator" placeholder="Perpetrator" required>
+        <input type="text" id="create-perp-house" placeholder="Perp House" required>
+        <input type="text" id="create-victim" placeholder="Victim" required>
+        <input type="text" id="create-victim-house" placeholder="Victim House" required>
+        <input type="text" id="create-betrayal" placeholder="Betrayal" required>
+        <input type="text" id="create-relationship" placeholder="Relationship" required>
+        <input type="text" id="create-immediate-consequence" placeholder="Immediate Consequence" required>
+        <input type="text" id="create-geography" placeholder="Geography" required>
+        <button type="submit">Create</button>
+    </form>
+
+    <h2>Read Records</h2>
+    <button id="read-button">Read All</button>
+    <button id="clear-button" style="display: none;">Clear</button>
+    <div id="read-result"></div>
+
+    <h2>Update Betrayal Description</h2>
+    <form id="update-form">
+        <input type="text" id="update-perpetrator" placeholder="Perpetrator" required>
+        <input type="text" id="update-victim" placeholder="Victim" required>
+        <input type="text" id="update-betrayal" placeholder="Betrayal" required>
+        <input type="text" id="update-new-description" placeholder="New Description" required>
+        <button type="submit">Update</button>
+    </form>
+
+    <h2>Delete Relationship</h2>
+    <form id="delete-form">
+        <input type="text" id="delete-perpetrator" placeholder="Perpetrator" required>
+        <input type="text" id="delete-victim" placeholder="Victim" required>
+        <input type="text" id="delete-betrayal" placeholder="Betrayal" required>
+        <button type="submit">Delete</button>
+    </form>
+
+    <script>
+        const apiUrl = 'http://localhost:3000';
+
+        document.getElementById('create-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const perpetrator = document.getElementById('create-perpetrator').value;
+            const perpHouse = document.getElementById('create-perp-house').value;
+            const victim = document.getElementById('create-victim').value;
+            const victimHouse = document.getElementById('create-victim-house').value;
+            const betrayal = document.getElementById('create-betrayal').value;
+            const relationship = document.getElementById('create-relationship').value;
+            const immediateConsequence = document.getElementById('create-immediate-consequence').value;
+            const geography = document.getElementById('create-geography').value;
+
+            await fetch(`${apiUrl}/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Perpetrator: perpetrator,
+                    PerpHouse: perpHouse,
+                    Victim: victim,
+                    VictimHouse: victimHouse,
+                    Betrayal: betrayal,
+                    Relationship: relationship,
+                    ImmediateConsequence: immediateConsequence,
+                    Geography: geography
+                })
+            });
+        });
+
+        document.getElementById('read-button').addEventListener('click', async () => {
+            const response = await fetch(`${apiUrl}/read`);
+            const data = await response.json();
+            displayReadResult(data);
+            document.getElementById('clear-button').style.display = 'inline';
+        });
+
+        document.getElementById('update-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const perpetrator = document.getElementById('update-perpetrator').value;
+            const victim = document.getElementById('update-victim').value;
+            const betrayal = document.getElementById('update-betrayal').value;
+            const newDescription = document.getElementById('update-new-description').value;
+
+            await fetch(`${apiUrl}/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Perpetrator: perpetrator,
+                    Victim: victim,
+                    Betrayal: betrayal,
+                    NewDescription: newDescription
+                })
+            });
+        });
+
+        document.getElementById('delete-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const perpetrator = document.getElementById('delete-perpetrator').value;
+            const victim = document.getElementById('delete-victim').value;
+            const betrayal = document.getElementById('delete-betrayal').value;
+
+            await fetch(`${apiUrl}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Perpetrator: perpetrator,
+                    Victim: victim,
+                    Betrayal: betrayal
+                })
+            });
+        });
+
+        document.getElementById('clear-button').addEventListener('click', () => {
+            const readResultDiv = document.getElementById('read-result');
+            readResultDiv.innerHTML = '';
+            document.getElementById('clear-button').style.display = 'none';
+        });
+
+        function displayReadResult(data) {
+            const readResultDiv = document.getElementById('read-result');
+            readResultDiv.innerHTML = '';
+            data.forEach(record => {
+                const div = document.createElement('div');
+                const perpetrator = record._fields[0].properties.name;
+                const description = record._fields[1].properties.Betrayal_Description ? record._fields[1]
+                    .properties.Betrayal_Description : record._fields[1].properties['Betrayal Description'];
+                const victim = record._fields[2].properties.name;
+                div.textContent = `${perpetrator} - ${victim} - ${description}`;
+                readResultDiv.appendChild(div);
+            });
+        }
+    </script>
+</body>
+
+</html>
