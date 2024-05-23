@@ -26,7 +26,7 @@ Navigate to the project directory and install the necessary dependencies:
 bash
 
 npm install
-Step 4: Start the Application
+## Step 4: Start the Application
 You can start the application using either of the following commands:
 
 bash
@@ -37,7 +37,7 @@ or
 bash
 
 nodemon app.js
-Step 5: Access the Application
+## Step 5: Access the Application
 Open your web browser and navigate to http://localhost:3000 to access the application.
 
 ## Project Structure
