@@ -49,9 +49,9 @@ views/: Contains the HTML views.
 Operations
 The application supports the following CRUD operations:
 
-Create: Add new criminals and victims.
-Read: View existing criminals and victims.
-Update: Modify details of existing criminals and victims.
-Delete: Remove criminals and victims from the database.
-Conclusion
+ Create: Add new criminals and victims.
+ Read: View existing criminals and victims.
+ Update: Modify details of existing criminals and victims.
+ Delete: Remove criminals and victims from the database.
+## Conclusion
 You have successfully set up and launched the Basic Graph App. You can now perform CRUD operations on the criminal-victim data using the simple interface provided by the application.
