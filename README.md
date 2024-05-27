@@ -42,16 +42,21 @@ Open your web browser and navigate to http://localhost:3000 to access the applic
 
 ## Project Structure
 app.js: The main entry point of the application.
+
 public/: Contains the frontend files (HTML, CSS, JavaScript).
+
 routes/: Contains the backend route handlers.
+
 models/: Contains the Neo4j models for the application.
+
 views/: Contains the HTML views.
-Operations
+
+### Operations
 The application supports the following CRUD operations:
 
- Create: Add new criminals and victims.
- Read: View existing criminals and victims.
- Update: Modify details of existing criminals and victims.
- Delete: Remove criminals and victims from the database.
-## Conclusion
+Create: Add new criminals and victims.
+Read: View existing criminals and victims.
+Update: Modify details of existing criminals and victims.
+Delete: Remove criminals and victims from the database.
+Conclusion
 You have successfully set up and launched the Basic Graph App. You can now perform CRUD operations on the criminal-victim data using the simple interface provided by the application.
